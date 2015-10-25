@@ -15,10 +15,10 @@ import java.util.Scanner;
  */
 public abstract class ConnectAny {
     
-    public abstract Connection connect(String host, String dbName, String user, String pass); 
+    public abstract Connection connect(String host, String dbName, String schema, String user, String pass); 
     
     public HashMap<String,String> getConnectionInfo(){
-        String host, dbName, user, pass;
+        String host, dbName, schema, user, pass;
         HashMap<String, String> connectionInfo = new HashMap<>();
 
         Scanner sc = new Scanner(System.in);
@@ -27,6 +27,8 @@ public abstract class ConnectAny {
         host = sc.nextLine();
         System.out.println("Ingrese el nombre de la Base de Datos");
         dbName = sc.nextLine();
+        System.out.println("Ingrese el schema a utilizar");
+        schema = sc.nextLine();
         System.out.println("Ingrese el usuario");
         user = sc.nextLine();
         System.out.println("Ingrese la contraseña");
@@ -34,6 +36,7 @@ public abstract class ConnectAny {
         
         connectionInfo.put("host", host);
         connectionInfo.put("dbname", dbName);
+        connectionInfo.put("schema", schema);
         connectionInfo.put("user", user);
         connectionInfo.put("pass", pass);
         

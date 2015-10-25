@@ -18,7 +18,7 @@ public class ConnectPostgres extends ConnectAny{
     Connection connection;
     
     @Override
-    public Connection connect(String host, String dbName, String user, String pass) {
+    public Connection connect(String host, String dbName, String schema, String user, String pass) {
         try {
             String driver = "org.postgresql.Driver";
             String url = "jdbc:postgresql://"+host+":5432/"+dbName;

@@ -18,7 +18,7 @@ public class Table {
     private LinkedList<String> pks;
     private LinkedList<String> fks;
     private LinkedList<String> uqks;
-    private LinkedList<String> triggers;
+    private LinkedList<String[]> triggers;
     private LinkedList<String[]> indexs;
 
     public Table() {
@@ -27,7 +27,7 @@ public class Table {
         pks = new LinkedList<String>();
         fks = new LinkedList<String>();
         uqks = new LinkedList<String>();
-        triggers = new LinkedList<String>();
+        triggers = new LinkedList<String[]>();
         indexs = new LinkedList<String[]>();
     }
 
@@ -51,12 +51,16 @@ public class Table {
         return uqks;
     }
 
-    public LinkedList<String> getTriggers() {
+    public LinkedList<String[]> getTriggers() {
         return triggers;
     }
 
     public LinkedList<String[]> getIndexs() {
         return indexs;
+    }
+    
+    public void setName(String name){
+        this.name=name;
     }
     
     public void addColumn(String name, String type){
@@ -80,6 +84,18 @@ public class Table {
         col[0]=name;
         col[1]=condition;
         columns.add(col);
+    }
+    
+    public void addPk(String columnName){
+        pks.add(columnName);
+    }
+    
+    public void addFk(String columnName){
+        fks.add(columnName);
+    }
+    
+    public void addUqk(String columnName){
+        uqks.add(columnName);
     }
     
 }
