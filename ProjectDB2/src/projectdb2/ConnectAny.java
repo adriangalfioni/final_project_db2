@@ -28,7 +28,7 @@ public abstract class ConnectAny {
         System.out.println("Ingrese el nombre de la Base de Datos");
         dbName = sc.nextLine();
         System.out.println("Ingrese el schema a utilizar");
-        schema = sc.nextLine();
+        schema = "ej1b";/*sc.nextLine();*/
         System.out.println("Ingrese el usuario");
         user = sc.nextLine();
         System.out.println("Ingrese la contraseña");

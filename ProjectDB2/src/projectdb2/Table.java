@@ -76,14 +76,14 @@ public class Table {
         col[1]=unique;
         col[2]=columnName;
         col[3]=ascDesc;
-        columns.add(col);
+        indexs.add(col);
     }
     
     public void addTrigger(String name, String condition){
         String[] col = new String[2];
         col[0]=name;
         col[1]=condition;
-        columns.add(col);
+        triggers.add(col);
     }
     
     public void addPk(String columnName){
