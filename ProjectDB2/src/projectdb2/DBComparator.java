@@ -50,7 +50,7 @@ public class DBComparator {
         scdSchema = schema;
         
     
-        TableReport report = new TableReport(fstConnection, scdConnection,fstSchema,scdSchema);
+        Report report = new Report(fstConnection, scdConnection,fstSchema,scdSchema);
         report.generateReport();
         report.showReport();
     }

@@ -79,12 +79,15 @@ public class Table {
         indexs.add(col);
     }
     
-    public void addTrigger(String name, String condition){
-        String[] col = new String[2];
+    public void addTrigger(String name, String timing, String condition, String on_table){
+        String[] col = new String[4];
         col[0]=name;
-        col[1]=condition;
+        col[1]=timing;
+        col[2]=condition;
+        col[3]=on_table;
         triggers.add(col);
     }
+    
     
     public void addPk(String columnName){
         pks.add(columnName);
@@ -98,4 +101,65 @@ public class Table {
         uqks.add(columnName);
     }
     
+    public boolean equals(Table tlbToComp){
+        if(!name.equalsIgnoreCase(tlbToComp.getName())){
+            return false;
+        }
+        if(!equalsKeys(pks, tlbToComp.getPks())){
+            return false;
+        }
+        if(!equalsKeys(fks, tlbToComp.getFks())){
+            return false;
+        }
+        if(!equalsKeys(uqks, tlbToComp.getUqks())){
+            return false;
+        }
+        if(!equalsLA(columns, tlbToComp.getColumns())){
+            return false;
+        }
+        if(!equalsLA(indexs, tlbToComp.getIndexs())){
+            return false;
+        }
+        if(!equalsLA(triggers, tlbToComp.getTriggers())){
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private boolean equalsKeys(LinkedList<String> fstK, LinkedList<String> scdK){
+        if(fstK.size() != scdK.size()){
+            return false;
+        }
+        for (int i = 0; i < fstK.size(); i++) {
+            boolean eq = false;
+            String key = fstK.get(i);
+            for (int j = 0; j < scdK.size(); j++) {
+                if(key.equalsIgnoreCase(scdK.get(j))) eq=true;
+            }
+            if(eq==false) return false;
+        }
+        return true;
+    }
+    
+    private boolean equalsLA(LinkedList<String[]> fstLA, LinkedList<String[]> scLA){
+        if(fstLA.size() != scLA.size()){
+            return false;
+        }
+        for (int i = 0; i < fstLA.size(); i++) {
+            boolean find = false;
+            String[] elem = fstLA.get(i);
+            for (int j = 0; j < scLA.size(); j++) {
+                String[] elem2 = fstLA.get(i);
+                if(elem[0].equalsIgnoreCase(elem2[0])){
+                    find=true;
+                    for (int k = 1; k < elem.length; k++) {
+                        if(!elem[k].equalsIgnoreCase(elem2[k])) return false; 
+                    }
+                }
+            }
+            if(find==false) return false;
+        }
+        return true;
+    }
 }
