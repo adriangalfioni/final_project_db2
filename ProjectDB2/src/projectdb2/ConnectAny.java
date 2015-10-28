@@ -24,15 +24,15 @@ public abstract class ConnectAny {
         Scanner sc = new Scanner(System.in);
         
         System.out.println("Ingrese el nombre de Host");
-        host = sc.nextLine();
+        host = "localhost";/*sc.nextLine();*/
         System.out.println("Ingrese el nombre de la Base de Datos");
-        dbName = sc.nextLine();
+        dbName = "postgres";/*sc.nextLine();*/
         System.out.println("Ingrese el schema a utilizar");
         schema = /*"ej1b";*/sc.nextLine();
         System.out.println("Ingrese el usuario");
-        user = sc.nextLine();
+        user = "postgres";/*sc.nextLine();*/
         System.out.println("Ingrese la contraseña");
-        pass = sc.nextLine();
+        pass = "root";/*sc.nextLine();*/
         
         connectionInfo.put("host", host);
         connectionInfo.put("dbname", dbName);

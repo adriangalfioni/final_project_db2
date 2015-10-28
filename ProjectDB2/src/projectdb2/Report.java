@@ -48,14 +48,18 @@ public class Report {
         obtainTableInfo(scdConn, scdSchema, scdConnTables);
         obtainProcInfo(scdConn, scdConnProc, scdConnParams);
         
-        /*for (int i = 0; i < fstConnTables.size(); i++) {
+        for (int i = 0; i < fstConnTables.size(); i++) {
             Table aux = fstConnTables.get(i);
-            boolean eq = false;
-            for (int j = 0; j < fstConnTables.size(); j++) {
-                eq = eq || aux.equals(fstConnTables.get(j));
+            String eq = "";
+            for (int j = 0; j < scdConnTables.size(); j++) {
+                eq += aux.checkDif(scdConnTables.get(j));
             }
-            System.out.println(eq);
-        }*/
+            if(eq.equalsIgnoreCase("")){
+                System.out.println("Impimir no estaba en la tabla");
+            }else{
+                System.out.println("Agregar al archivo eq: \n"+eq);
+            }
+        }
     }
     
     private void obtainProcInfo(Connection conn, LinkedList<String[]> procs, HashMap<String,LinkedList<String>> params){
@@ -155,8 +159,9 @@ public class Report {
             ResultSet resultSetFK = metaData.getImportedKeys(null, schema, tableName);
             
             while (resultSetFK.next()){
-                String columnName = resultSetFK.getString("PKCOLUMN_NAME");
-                tbl.addFk(columnName);
+                String columnName = resultSetFK.getString("FKCOLUMN_NAME");
+                String tableRef = resultSetFK.getString("FKTABLE_NAME");
+                tbl.addFk(columnName,tableRef);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
@@ -220,7 +225,8 @@ public class Report {
                 System.out.println("Clave/s primaria/s: "+tbl.getPks().get(j));
             }
             for (int j = 0; j < tbl.getFks().size(); j++) {
-                System.out.println("Clave/s secundaria/s: "+tbl.getFks().get(j));
+                String[] fk = tbl.getFks().get(j);
+                System.out.println("Clave/s secundaria/s: "+fk[0]+"  "+fk[1]);
             }
             for (int j = 0; j < tbl.getUqks().size(); j++) {
                 System.out.println("Clave/s unica/s: "+tbl.getUqks().get(j));

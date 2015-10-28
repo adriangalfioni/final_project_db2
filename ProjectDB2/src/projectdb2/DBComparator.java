@@ -22,6 +22,7 @@ public class DBComparator {
     static Connection fstConnection;
     static Connection scdConnection;
     static String schema;
+    static String fstSchema, scdSchema;
     
     public static Connection obtainConn(){
         ConnectPostgres connection = new ConnectPostgres();
@@ -39,7 +40,6 @@ public class DBComparator {
     }
     
     public static void main(String[] args) {
-        String fstSchema, scdSchema;
         
         System.out.println("Se solicitara la información para la primer conexion:");
         fstConnection = obtainConn();
