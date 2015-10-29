@@ -74,18 +74,36 @@ public class Report {
             for (int j = 0; j < scdConnTables.size(); j++) {
                 eq += aux.checkDif(scdConnTables.get(j));
             }
-            if(eq.equalsIgnoreCase("")){
-                System.out.println("Impimir no estaba en la tabla");
-            }else{                         
+            try {
+                if(eq.equalsIgnoreCase("")){
+                    writer.write("---------------------------------------\n");
+                    writer.write("La tabla "+aux.getName()+" en "+fstSchema+" no se encuentra en "+scdSchema+"\n\n");
+                }else{                         
+                    writer.write("---------------------------------------\n");
+                    writer.write("Información sobre la tabla: "+aux.getName()+" \n\n"+eq);
+                }
+            }catch (IOException ex) {
+                Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        for (int i = 0; i < scdConnTables.size(); i++) {
+            Table aux = scdConnTables.get(i);
+            boolean find = false;
+            for (int j = 0; j < fstConnTables.size(); j++) {
+                if (aux.getName().equalsIgnoreCase(fstConnTables.get(j).getName())){
+                    find = true;
+                }
+            }
+            if(!find){
                 try {
-                    writer.write(eq);
+                    writer.write("---------------------------------------\n");
+                    writer.write("La tabla "+aux.getName()+" en "+scdSchema+" no se encuentra en "+fstSchema+"\n\n");
                 } catch (IOException ex) {
                     Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
                 }
-  
-                //System.out.println("Agregar al archivo eq: \n"+eq);
             }
         }
+        
         try {
             writer.close();
         } catch (IOException ex) {
@@ -257,7 +275,7 @@ public class Report {
             }
             for (int j = 0; j < tbl.getFks().size(); j++) {
                 String[] fk = tbl.getFks().get(j);
-                System.out.println("Clave/s secundaria/s: "+fk[0]+"  "+fk[1]);
+                System.out.println("Clave/s foranea/s: "+fk[0]+" aa "+fk[1]);
             }
             for (int j = 0; j < tbl.getUqks().size(); j++) {
                 System.out.println("Clave/s unica/s: "+tbl.getUqks().get(j));
@@ -303,7 +321,8 @@ public class Report {
                 System.out.println("Clave/s primaria/s: "+tbl.getPks().get(j));
             }
             for (int j = 0; j < tbl.getFks().size(); j++) {
-                System.out.println("Clave/s secundaria/s: "+tbl.getFks().get(j));
+                String[] fk = tbl.getFks().get(j);
+                System.out.println("Clave/s foranea/s: "+fk[0]+" aa "+fk[1]);
             }
             for (int j = 0; j < tbl.getUqks().size(); j++) {
                 System.out.println("Clave/s unica/s: "+tbl.getUqks().get(j));

@@ -124,21 +124,6 @@ public class Table {
             report += equalsLA(triggers, tlbToComp.getTriggers(),"trigger");
             report += equalsLA(indexs, tlbToComp.getIndexs(),"index");
             report += equalsLA(fks, tlbToComp.getFks(),"fk");
-            /*if(!equalsKeys(fks, tlbToComp.getFks())){
-                return report;
-            }
-            if(!equalsKeys(uqks, tlbToComp.getUqks())){
-                return report;
-            }
-            if(!equalsLA(columns, tlbToComp.getColumns())){
-                return report;
-            }
-            if(!equalsLA(indexs, tlbToComp.getIndexs())){
-                return report;
-            }
-            if(!equalsLA(triggers, tlbToComp.getTriggers())){
-                return report;
-            }*/
 
             if(report.isEmpty()){
                 report="La tabla "+name+" es igual en ambas Bases de Datos \n";
