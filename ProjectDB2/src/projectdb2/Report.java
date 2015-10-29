@@ -51,10 +51,10 @@ public class Report {
     
     public void generateReport(){
         obtainTableInfo(fstConn, fstSchema, fstConnTables);
-        obtainProcInfo(fstConn, fstConnProc, fstConnParams);
+        obtainProcInfo(fstConn, fstConnProc, fstConnParams, fstSchema);
         
         obtainTableInfo(scdConn, scdSchema, scdConnTables);
-        obtainProcInfo(scdConn, scdConnProc, scdConnParams);
+        obtainProcInfo(scdConn, scdConnProc, scdConnParams, scdSchema);
         Writer writer = null;
     
         try {
@@ -111,11 +111,11 @@ public class Report {
         }
     }
     
-    private void obtainProcInfo(Connection conn, LinkedList<String[]> procs, HashMap<String,LinkedList<String>> params){
+    private void obtainProcInfo(Connection conn, LinkedList<String[]> procs, HashMap<String,LinkedList<String>> params, String schema){
         try {
             String query = "SELECT routine_name, data_type as return_type, specific_name"
                     + " as unique_name FROM information_schema.routines WHERE specific_schema NOT IN"
-                    + " ('pg_catalog', 'information_schema') AND type_udt_name != 'trigger';";
+                    + " ('pg_catalog', 'information_schema') AND type_udt_name != 'trigger' AND specific_schema='"+schema+"';";
             
             PreparedStatement statement = conn.prepareStatement(query);
             ResultSet resultSetProcedure = statement.executeQuery();
