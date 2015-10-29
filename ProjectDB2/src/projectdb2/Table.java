@@ -125,8 +125,8 @@ public class Table {
             report += equalsLA(indexs, tlbToComp.getIndexs(),"index");
             report += equalsLA(fks, tlbToComp.getFks(),"fk");
 
-            if(report.isEmpty()){
-                report="La tabla "+name+" es igual en ambas Bases de Datos \n";
+            if(report.equalsIgnoreCase("")){
+                report="La tabla "+name+" es igual en ambas Bases de Datos";
             }
 
             return report;
@@ -170,8 +170,8 @@ public class Table {
                     }
                     if(type.equalsIgnoreCase("fk")){
                         if(!elem[1].equalsIgnoreCase(elem2[1])) 
-                        rep += "La Foreign Key definida sobre " + elem[0] + " en " + DBComparator.fstSchema + "." + name + " hace referencia a la tabla "
-                                + elem[1]+ " y en " + DBComparator.scdSchema + "." + name + " a la tabla " + elem2[1]+"\n"; 
+                        rep += "La Foreign Key referencia a " + elem[0] + " en " + DBComparator.fstSchema + "." + name + " tabla: "
+                                + elem[1]+ " y en " + DBComparator.scdSchema + "." + name + " tabla: " + elem2[1]+"\n"; 
                     }
                     if(type.equalsIgnoreCase("trigger")){
                         if(!elem[1].equalsIgnoreCase(elem2[1])){

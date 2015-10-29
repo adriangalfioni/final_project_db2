@@ -208,8 +208,8 @@ public class Report {
             ResultSet resultSetFK = metaData.getImportedKeys(null, schema, tableName);
             
             while (resultSetFK.next()){
-                String columnName = resultSetFK.getString("FKCOLUMN_NAME");
-                String tableRef = resultSetFK.getString("FKTABLE_NAME");
+                String columnName = resultSetFK.getString("PKCOLUMN_NAME");
+                String tableRef = resultSetFK.getString("PKTABLE_NAME");
                 tbl.addFk(columnName,tableRef);
             }
         } catch (SQLException ex) {
@@ -311,28 +311,28 @@ public class Report {
         System.out.println("INFORMACION DE LA BASE DE DATOS - ESQUEMA: "+scdSchema);
         Table tbl2;
         for (int i = 0; i < scdConnTables.size(); i++) {
-            tbl = scdConnTables.get(i);
+            tbl2 = scdConnTables.get(i);
             System.out.println("\n");
-            System.out.println("Nombre: "+tbl.getName());
-            for (int j = 0; j < tbl.getColumns().size(); j++) {
-                System.out.println("Atributo: "+tbl.getColumns().get(j)[0]+", type: "+tbl.getColumns().get(j)[1]);
+            System.out.println("Nombre: "+tbl2.getName());
+            for (int j = 0; j < tbl2.getColumns().size(); j++) {
+                System.out.println("Atributo: "+tbl2.getColumns().get(j)[0]+", type: "+tbl2.getColumns().get(j)[1]);
             }
-            for (int j = 0; j < tbl.getPks().size(); j++) {
-                System.out.println("Clave/s primaria/s: "+tbl.getPks().get(j));
+            for (int j = 0; j < tbl2.getPks().size(); j++) {
+                System.out.println("Clave/s primaria/s: "+tbl2.getPks().get(j));
             }
-            for (int j = 0; j < tbl.getFks().size(); j++) {
-                String[] fk = tbl.getFks().get(j);
+            for (int j = 0; j < tbl2.getFks().size(); j++) {
+                String[] fk = tbl2.getFks().get(j);
                 System.out.println("Clave/s foranea/s: "+fk[0]+" aa "+fk[1]);
             }
-            for (int j = 0; j < tbl.getUqks().size(); j++) {
-                System.out.println("Clave/s unica/s: "+tbl.getUqks().get(j));
+            for (int j = 0; j < tbl2.getUqks().size(); j++) {
+                System.out.println("Clave/s unica/s: "+tbl2.getUqks().get(j));
             }
-            for (int j = 0; j < tbl.getIndexs().size(); j++) {
-                String[] index = tbl.getIndexs().get(j);
+            for (int j = 0; j < tbl2.getIndexs().size(); j++) {
+                String[] index = tbl2.getIndexs().get(j);
                 System.out.println("Indice - Nombre: "+index[0]+", Unique: "+index[1]+", Column name: "+index[2]+", ascOrDesc: "+index[3]);
             }
-            for (int j = 0; j < tbl.getTriggers().size(); j++) {
-                String[] trigger = tbl.getTriggers().get(j);
+            for (int j = 0; j < tbl2.getTriggers().size(); j++) {
+                String[] trigger = tbl2.getTriggers().get(j);
                 System.out.println("Trigger - Nombre: "+trigger[0]+", Tiempo: "+trigger[1]+", Condicion: "+trigger[2]+", Sobre tabla: "+trigger[3]);
             }
         }
