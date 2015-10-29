@@ -1,0 +1,10 @@
+Host: localhost
+DBname: ej2
+Schema: ej2
+User: postgres
+Pass: root
+Host2: localhost
+DBname2: ej2
+Schema2: ej2
+User2: postgres
+Pass2: root

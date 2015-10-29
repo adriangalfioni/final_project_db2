@@ -141,7 +141,7 @@ public class Table {
             }*/
 
             if(report.isEmpty()){
-                report="La tabla "+name+" es igual en ambas Bases de Datos";
+                report="La tabla "+name+" es igual en ambas Bases de Datos \n";
             }
 
             return report;

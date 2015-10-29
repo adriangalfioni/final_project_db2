@@ -5,6 +5,14 @@
  */
 package projectdb2;
 
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -47,7 +55,19 @@ public class Report {
         
         obtainTableInfo(scdConn, scdSchema, scdConnTables);
         obtainProcInfo(scdConn, scdConnProc, scdConnParams);
-        
+        Writer writer = null;
+    
+        try {
+            writer = new BufferedWriter(new OutputStreamWriter(
+                    new FileOutputStream("Report.txt"), "utf-8")); //crea el archivo de los reportes en ProjectDB2
+            writer.write("-------------------- Diferencias entre "+ DBComparator.fstSchema +" y " + DBComparator.scdSchema + "--------------------\n\n");
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
+        }
         for (int i = 0; i < fstConnTables.size(); i++) {
             Table aux = fstConnTables.get(i);
             String eq = "";
@@ -56,9 +76,20 @@ public class Report {
             }
             if(eq.equalsIgnoreCase("")){
                 System.out.println("Impimir no estaba en la tabla");
-            }else{
-                System.out.println("Agregar al archivo eq: \n"+eq);
+            }else{                         
+                try {
+                    writer.write(eq);
+                } catch (IOException ex) {
+                    Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
+                }
+  
+                //System.out.println("Agregar al archivo eq: \n"+eq);
             }
+        }
+        try {
+            writer.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
