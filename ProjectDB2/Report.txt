@@ -1,0 +1,7 @@
+-------------------- Diferencias entre ej1b y ej1bb--------------------
+
+
+
+Informacion sobre procedimientos 
+
+Los procedimientos son iguales en ambas Bases de datos

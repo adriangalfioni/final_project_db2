@@ -1,0 +1,10 @@
+Host: localhost
+DBname: postgres
+Schema: ej1b
+User: postgres
+Pass: root
+Host2: localhost
+DBname2: postgres
+Schema2: ej1bb
+User2: postgres
+Pass2: root

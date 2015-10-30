@@ -50,9 +50,9 @@ public abstract class ConnectAny {
     public HashMap<String,String> getDefaultConnection() throws FileNotFoundException, IOException{
         String[] results = new String[10];
         HashMap<String, String> connectionInfo = new HashMap<>();
-        URL path = ConnectAny.class.getResource("DefaultConnection.txt");
-        File f = new File(path.getFile());
-        BufferedReader br = new BufferedReader(new FileReader(f));
+       // URL path = ConnectAny.class.getResource("DefaultConnection.txt");
+        //File f = new File(path.getFile());
+        BufferedReader br = new BufferedReader(new FileReader("DefaultConnection.txt"));
         try {
             StringBuilder sb = new StringBuilder();
             String line = br.readLine();
@@ -68,7 +68,6 @@ public abstract class ConnectAny {
         } finally {
             br.close();
         }
-
         connectionInfo.put("host", results[0]);
         connectionInfo.put("dbname", results[1]);
         connectionInfo.put("schema", results[2]);

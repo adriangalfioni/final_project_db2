@@ -86,6 +86,7 @@ public class Report {
                 Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
         for (int i = 0; i < scdConnTables.size(); i++) {
             Table aux = scdConnTables.get(i);
             boolean find = false;
@@ -104,6 +105,12 @@ public class Report {
             }
         }
         
+        try {
+            writer.write("\n\nInformacion sobre procedimientos \n\n");
+            writer.write(procComparator()); // reporta las diferencias entre procesos
+        } catch (IOException ex) {
+            Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
+        }
         try {
             writer.close();
         } catch (IOException ex) {
@@ -351,6 +358,70 @@ public class Report {
             }
             System.out.println("");
         }
+    }
+    
+    private String procComparator(){
+        String result = "";
+        LinkedList<String[]> db2procInfo = new LinkedList<>();
+        LinkedList<String[]> db1procInfo = new LinkedList<>();
+        
+        /*obtiene los procedimietos de ambas bases de datos*/
+        for (int j = 0; j < fstConnProc.size(); j++) {
+            db1procInfo.add(fstConnProc.get(j));
+        }
+        for (int j = 0; j < scdConnProc.size(); j++) {
+            db2procInfo.add(scdConnProc.get(j));
+        }
+        
+        for (int i = 0; i < db1procInfo.size(); i++) {
+            boolean found = false;
+            String[] currentProc = db1procInfo.get(i);
+            for (int j = 0; j < db2procInfo.size(); j++) {
+                String[] procToCompare = db2procInfo.get(j);
+                if(currentProc[0].equalsIgnoreCase(procToCompare[0])){
+                    found = true;
+                    if(!currentProc[1].equalsIgnoreCase(procToCompare[1])){
+                       result += "El valor de retorno del procedimiento " + currentProc[0]  + " en " + fstSchema + " es de tipo " + currentProc[1] 
+                               + "y el de "  + scdSchema + " es de tipo " + procToCompare[1] + "\n";
+                    }
+                    LinkedList<String> currProcParams = fstConnParams.get(currentProc[2]);
+                    LinkedList<String> procToCmpParams = scdConnParams.get(procToCompare[2]);
+                    if(procToCmpParams != null && currProcParams != null){
+                        for (int k = 0; k < currProcParams.size() ; k++) {
+                            boolean paramFound = false;
+
+                            for (int l = 0; l < procToCmpParams.size(); l++) {
+                                if(currProcParams.get(k).equalsIgnoreCase(procToCmpParams.get(l))){
+                                    paramFound = true;
+                                    break;
+                                }                           
+                            }
+                            if(!paramFound){
+                                result += "El parametro " + currProcParams.get(k) + " del procedimiento " + currentProc[0] + " de " + fstSchema 
+                                        + " no se encuentra en el procedimiento " + procToCompare[0] + " de " + scdSchema + "\n";
+                            }
+                        } 
+                    }
+                }            
+            }
+            if(!found)
+                result += "El procedimiento " + currentProc[0]  + " no se encuentra en " + scdSchema + "\n";
+        }
+        for (int i = 0; i < db2procInfo.size(); i++) {
+            boolean found = false;
+            String[] currentProc = db2procInfo.get(i);
+            for (int j = 0; j < db1procInfo.size(); j++) {
+                String[] procToCompare = db1procInfo.get(j);
+                if(currentProc[0].equalsIgnoreCase(procToCompare[0])){
+                    found = true;     
+                }            
+            }
+            if(!found)
+                result += "El procedimiento " + currentProc[0]  + " no se encuentra en " + fstSchema + "\n";
+        }
+        if(result.isEmpty())
+            result = "Los procedimientos son iguales en ambas Bases de datos";
+        return result;
     }
     
     private boolean notPk(String colunmName, LinkedList<String> pks){
