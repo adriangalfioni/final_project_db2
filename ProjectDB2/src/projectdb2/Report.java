@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.net.URL;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
@@ -23,10 +22,7 @@ import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author adrian
- */
+
 public class Report {
 
     Connection fstConn,scdConn;
@@ -236,12 +232,29 @@ public class Report {
                 String ascOrDesc = resultSetIndex.getString("ASC_OR_DESC");
                     
                 if(notPk(columnName,tbl.getPks())) tbl.addUqk(columnName);
-                    
-                tbl.addIndex(indexName, unique, columnName, ascOrDesc);
+                
+                checkComposedIndex(tbl, indexName, unique, columnName, ascOrDesc);
             }
         } catch (SQLException ex) {
             Logger.getLogger(Report.class.getName()).log(Level.SEVERE, null, ex);
         }        
+    }
+    
+    private void checkComposedIndex(Table tbl, String indexName, String unique, String columnName, String ascOrDesc){
+        LinkedList<String[]> indexs = tbl.getIndexs();
+        boolean find = false;
+        int position=0;
+        for (int i = 0; i < indexs.size(); i++) {
+            if(indexs.get(i)[0].equalsIgnoreCase(indexName)){
+                find = true;
+                position = i;
+            }
+        }
+        if(find){
+            tbl.setIndexColumnName(columnName, position);
+        }else{
+            tbl.addIndex(indexName, unique, columnName, ascOrDesc);
+        }
     }
     
     private void triggerReport(Table tbl, String schema, String tableName, Connection conn){
@@ -420,7 +433,7 @@ public class Report {
                 result += "El procedimiento " + currentProc[0]  + " no se encuentra en " + fstSchema + "\n";
         }
         if(result.isEmpty())
-            result = "Los procedimientos son iguales en ambas Bases de datos";
+            result = "Los procedimientos son iguales en ambas Bases de datos\n";
         return result;
     }
     

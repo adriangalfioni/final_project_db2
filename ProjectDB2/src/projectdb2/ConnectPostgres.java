@@ -9,10 +9,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- *
- * @author adrian
- */
 public class ConnectPostgres extends ConnectAny{
 
     Connection connection;
@@ -22,7 +18,6 @@ public class ConnectPostgres extends ConnectAny{
         try {
             String driver = "org.postgresql.Driver";
             String url = "jdbc:postgresql://"+host+":5432/"+dbName;
-            //String url = "jdbc:postgresql://"+host+":5432/postgres";
             String username = user;
             String password = pass;
 

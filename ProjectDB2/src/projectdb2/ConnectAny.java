@@ -6,19 +6,13 @@
 package projectdb2;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Scanner;
 
-/**
- *
- * @author adrian
- */
 public abstract class ConnectAny {
     
     public abstract Connection connect(String host, String dbName, String schema, String user, String pass); 
@@ -28,15 +22,15 @@ public abstract class ConnectAny {
         HashMap<String, String> connectionInfo = new HashMap<>();
         Scanner sc = new Scanner(System.in);
         System.out.println("Ingrese el nombre de Host");
-        results[0] = "localhost";/*sc.nextLine();*/
+        results[0] = sc.nextLine();
         System.out.println("Ingrese el nombre de la Base de Datos");
-        results[1] = "postgres";/*sc.nextLine();*/
+        results[1] = sc.nextLine();
         System.out.println("Ingrese el schema a utilizar");
-        results[2] = /*"ej1b";*/sc.nextLine();
+        results[2] = sc.nextLine();
         System.out.println("Ingrese el usuario");
-        results[3] = "postgres";/*sc.nextLine();*/
+        results[3] = sc.nextLine();
         System.out.println("Ingrese la contraseña");
-        results[4] = "root";/*sc.nextLine();*/ 
+        results[4] = sc.nextLine();
      
         connectionInfo.put("host", results[0]);
         connectionInfo.put("dbname", results[1]);
@@ -50,8 +44,6 @@ public abstract class ConnectAny {
     public HashMap<String,String> getDefaultConnection() throws FileNotFoundException, IOException{
         String[] results = new String[10];
         HashMap<String, String> connectionInfo = new HashMap<>();
-       // URL path = ConnectAny.class.getResource("DefaultConnection.txt");
-        //File f = new File(path.getFile());
         BufferedReader br = new BufferedReader(new FileReader("DefaultConnection.txt"));
         try {
             StringBuilder sb = new StringBuilder();
@@ -73,7 +65,7 @@ public abstract class ConnectAny {
         connectionInfo.put("schema", results[2]);
         connectionInfo.put("user", results[3]);
         connectionInfo.put("pass", results[4]);
-          connectionInfo.put("host2", results[5]);
+        connectionInfo.put("host2", results[5]);
         connectionInfo.put("dbname2", results[6]);
         connectionInfo.put("schema2", results[7]);
         connectionInfo.put("user2", results[8]);

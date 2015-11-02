@@ -7,10 +7,6 @@ package projectdb2;
 
 import java.util.LinkedList;
 
-/**
- *
- * @author adrian
- */
 public class Table {
     
     private String name;
@@ -104,6 +100,10 @@ public class Table {
         uqks.add(columnName);
     }
     
+    public void setIndexColumnName(String columnName, int position){
+        indexs.get(position)[2]=indexs.get(position)[2]+" "+columnName;
+    }
+    
     public int findTable(LinkedList<Table> tbls){
         for (int i = 0; i < tbls.size(); i++) {
             if(this.name.equalsIgnoreCase(tbls.get(i).getName())){
@@ -126,7 +126,7 @@ public class Table {
             report += equalsLA(fks, tlbToComp.getFks(),"fk");
 
             if(report.equalsIgnoreCase("")){
-                report="La tabla "+name+" es igual en ambas Bases de Datos";
+                report="La tabla "+name+" es igual en ambas Bases de Datos \n";
             }
 
             return report;
